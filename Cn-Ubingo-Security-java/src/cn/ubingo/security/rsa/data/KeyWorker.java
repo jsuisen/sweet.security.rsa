@@ -34,7 +34,7 @@ import cn.ubingo.security.rsa.core.KeyFormat;
 public class KeyWorker {
 
     private String _key;
-    private int _keySize;
+    private int _keySize = 1024;
     private KeyFormat _format;
     private Cipher _decryptProvider;
     private Cipher _encryptProvider;
@@ -43,14 +43,14 @@ public class KeyWorker {
     private static final String SIGN_ALGORITHMS = "SHA1WithRSA";
 
     /**
-     * RSA×î´ó¼ÓÃÜÃ÷ÎÄ´óĞ¡
+     * RSAæœ€å¤§åŠ å¯†æ˜æ–‡å¤§å°
      */
     public int getMAX_ENCRYPT_BLOCK() {
         return _keySize / 8 - 11;
     }
 
     /**
-     * RSA×î´ó½âÃÜÃÜÎÄ´óĞ¡
+     * RSAæœ€å¤§è§£å¯†å¯†æ–‡å¤§å°
      */
     public int getMAX_DECRYPT_BLOCK() {
         return _keySize / 8;
@@ -304,14 +304,14 @@ public class KeyWorker {
 
     private static int getPrivateKeySize(Key publickey)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String algorithm = publickey.getAlgorithm(); // »ñÈ¡Ëã·¨
+        String algorithm = publickey.getAlgorithm(); // è·å–ç®—æ³•
         KeyFactory keyFact = KeyFactory.getInstance(algorithm);
         BigInteger prime = null;
-        if ("RSA".equals(algorithm)) { // Èç¹ûÊÇRSA¼ÓÃÜ
+        if ("RSA".equals(algorithm)) { // å¦‚æœæ˜¯RSAåŠ å¯†
             RSAPrivateKeySpec keySpec = (RSAPrivateKeySpec) keyFact.getKeySpec(
                     publickey, RSAPrivateKeySpec.class);
             prime = keySpec.getModulus();
-            int len = prime.toString(2).length(); // ×ª»»Îª¶ş½øÖÆ£¬»ñÈ¡¹«Ô¿³¤¶È
+            int len = prime.toString(2).length(); // è½¬æ¢ä¸ºäºŒè¿›åˆ¶ï¼Œè·å–å…¬é’¥é•¿åº¦
             return len;
         }
         return 0;
@@ -319,14 +319,14 @@ public class KeyWorker {
 
     private static int getPublicKeySize(Key publickey)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String algorithm = publickey.getAlgorithm(); // »ñÈ¡Ëã·¨
+        String algorithm = publickey.getAlgorithm(); // è·å–ç®—æ³•
         KeyFactory keyFact = KeyFactory.getInstance(algorithm);
         BigInteger prime = null;
-        if ("RSA".equals(algorithm)) { // Èç¹ûÊÇRSA¼ÓÃÜ
+        if ("RSA".equals(algorithm)) { // å¦‚æœæ˜¯RSAåŠ å¯†
             RSAPublicKeySpec keySpec = (RSAPublicKeySpec) keyFact.getKeySpec(
                     publickey, RSAPublicKeySpec.class);
             prime = keySpec.getModulus();
-            int len = prime.toString(2).length(); // ×ª»»Îª¶ş½øÖÆ£¬»ñÈ¡¹«Ô¿³¤¶È
+            int len = prime.toString(2).length(); // è½¬æ¢ä¸ºäºŒè¿›åˆ¶ï¼Œè·å–å…¬é’¥é•¿åº¦
             return len;
         }
         return 0;
